@@ -7,7 +7,7 @@ const WeatherIcon = document.querySelector(".weather-icon")
 async function checkWeather(city) {
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
     var data = await response.json();
-    console.log(data);  // ✅ Console me pura data print karega
+    console.log(data);  
 
     if (data.cod == "404") {  
         alert("City not found! Please enter a valid city.");
@@ -19,11 +19,9 @@ async function checkWeather(city) {
     document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
     document.querySelector(".wind").innerHTML = data.wind.speed + "Km/h";
 
-    // ✅ CHANGES HERE: API se exact weather status le rahe hain
     let weatherCondition = data.weather[0].main.toLowerCase(); 
-    console.log("Weather Condition:", weatherCondition);  // ✅ Console me check karne ke liye
+    console.log("Weather Condition:", weatherCondition);  // 
 
-    // ✅ CHANGES HERE: Image path ko fix kiya
     if (weatherCondition === "clouds") {
         WeatherIcon.src = "cloud.png"; 
     } 
@@ -40,7 +38,7 @@ async function checkWeather(city) {
         WeatherIcon.src = "mist.png"; 
     } 
     else {
-        WeatherIcon.src = "default.png";  // ✅ Agar koi match na ho toh default image
+        WeatherIcon.src = "default.png";  
     }
 }
 
@@ -56,7 +54,6 @@ searchBox.addEventListener('keypress', (event) => {
     }
 });
 
-// ✅ Jab page load ho, default ek city ka weather dikhega
 window.onload = function() {
     checkWeather("Delhi");  
 };
