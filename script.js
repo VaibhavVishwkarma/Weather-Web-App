@@ -7,9 +7,9 @@ const WeatherIcon = document.querySelector(".weather-icon")
 async function checkWeather(city) {
     const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
     var data = await response.json();
-    console.log(data);
+    console.log(data);  // ✅ Console me pura data print karega
 
-    if (data.cod == "404") {  // CHANGES HERE: Agar city galat ho to error handle kare
+    if (data.cod == "404") {  
         alert("City not found! Please enter a valid city.");
         return;
     }
@@ -19,20 +19,28 @@ async function checkWeather(city) {
     document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
     document.querySelector(".wind").innerHTML = data.wind.speed + "Km/h";
 
-    if (data.weather[0].main == "Clouds") {
-        WeatherIcon.src = "img/cloud.png";
-    }
-    else if (data.weather[0].main == "Clear") {
-        WeatherIcon.src = "img/clear.png";
-    }
-    else if (data.weather[0].main == "Rain") {
-        WeatherIcon.src = "img/rain.png";
-    }
-    else if (data.weather[0].main == "Drizzle") {
-        WeatherIcon.src = "img/drizzle.png";
-    }
-    else if (data.weather[0].main == "Mist") {
-        WeatherIcon.src = "img/mist.png";
+    // ✅ CHANGES HERE: API se exact weather status le rahe hain
+    let weatherCondition = data.weather[0].main.toLowerCase(); 
+    console.log("Weather Condition:", weatherCondition);  // ✅ Console me check karne ke liye
+
+    // ✅ CHANGES HERE: Image path ko fix kiya
+    if (weatherCondition === "clouds") {
+        WeatherIcon.src = "cloud.png"; 
+    } 
+    else if (weatherCondition === "clear") {
+        WeatherIcon.src = "clear.png"; 
+    } 
+    else if (weatherCondition === "rain") {
+        WeatherIcon.src = "rain.png"; 
+    } 
+    else if (weatherCondition === "drizzle") {
+        WeatherIcon.src = "drizzle.png"; 
+    } 
+    else if (weatherCondition === "mist") {
+        WeatherIcon.src = "mist.png"; 
+    } 
+    else {
+        WeatherIcon.src = "default.png";  // ✅ Agar koi match na ho toh default image
     }
 }
 
@@ -48,7 +56,7 @@ searchBox.addEventListener('keypress', (event) => {
     }
 });
 
-// CHANGES HERE: Jab page load ho, default ek city ka weather dikhao
+// ✅ Jab page load ho, default ek city ka weather dikhega
 window.onload = function() {
-    checkWeather("Delhi");  // CHANGES HERE: Default city set kiya
+    checkWeather("Delhi");  
 };
